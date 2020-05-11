@@ -28,6 +28,8 @@ func (q *Queue) ConsumeMessage(waitTimeout int64) ([]Message, error) {
 		fmt.Printf("Error retrieving message: %v\n", err)
 	}
 
+	fmt.Println("recebendo msg!")
+
 	msgs := make([]Message, len(result.Messages))
 	for i, msg := range result.Messages {
 
