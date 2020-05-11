@@ -3,6 +3,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/gocql/gocql"
+	"rent.car/repository"
 
 	"net/http"
 
@@ -10,14 +12,13 @@ import (
 	"rent.car/queue"
 )
 
-type X struct {
-	Value int    `json:valor`
-	Type  string `json:tipo`
-}
-
 func main() {
 
 	fmt.Println("oi")
+	uuid, _ := gocql.RandomUUID()
+	car := repository.Car{Id: uuid, Plate: "xxxx"}
+	repository.CreateCar(car)
+	fmt.Println(repository.GetAllCars())
 
 	go queue.Start()
 
