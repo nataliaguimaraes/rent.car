@@ -2,10 +2,10 @@ package queue
 
 import (
 	"fmt"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
+	"rent.car/repository"
 )
 
 func Start() {
@@ -33,8 +33,18 @@ func Start() {
 		}
 
 		for _, msg := range msgs {
-			fmt.Printf("from: %s - to: %s\n", msg.From, msg.To)
-			fmt.Printf("Message: %s\n\n", msg.Body)
+
+			rent := repository.Rent{
+				Message: repository.Message{
+					To: msg.To,
+					From: msg.From,
+					Body: msg.Body,
+				},
+			}
+			repository.CreateRent(rent)
 		}
+
+		rents := repository.GetAllRents()
+		fmt.Println(rents)
 	}
 }
